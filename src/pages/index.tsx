@@ -1,10 +1,9 @@
 import Image from "next/image";
 
 import { SwiperSlide } from 'swiper/react';
-import { Navigation, A11y } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
-
+import { Navigation, A11y } from "swiper";
 import { HomeContainer, Product, SwiperContainer } from "../styles/pages/home";
 
 import { GetStaticProps } from "next";
@@ -67,11 +66,11 @@ export default function Home({ products }: HomeProps) {
       </Head>
       
         <HomeContainer>
-          <SwiperContainer  
+          <SwiperContainer
+            navigation = {!isMobileScreen}
             modules = {[Navigation, A11y]}
             spaceBetween = {isMobileScreen ? 38  : 48}
             slidesPerView = {isMobileScreen ? 'auto'  : 2}
-            navigation = {!isMobileScreen}
             draggable = {true}
             centeredSlides = {isMobileScreen}
           >
