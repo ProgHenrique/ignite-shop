@@ -1,11 +1,13 @@
 import { GetStaticPaths, GetStaticProps } from "next"
 import Head from "next/head"
 import Image from "next/image"
-import { useRouter } from "next/router"
 import Stripe from "stripe"
 import { useShoppingCart } from "use-shopping-cart"
 import { stripe } from "../../lib/stripe"
 import { ImageContainer, ProductContainer, ProductDetails } from "../../styles/pages/product"
+import { useWindowSize } from "../../hooks/use-window-size"
+import { useRouter } from "next/router"
+import { redirect } from "next/navigation"
 
 interface ProductProps {
   product: {
@@ -29,9 +31,16 @@ interface IProductOnCart {
 }
 
 export default function Product({ product }: ProductProps) {
-
+  const router = useRouter()
   const { addItem } = useShoppingCart()
+  const windowSize = useWindowSize()
+  const productImageWidth = windowSize > 1024 ? 520 : 280
+  const productImageHeight = windowSize > 1024 ? 480 : 380
 
+  if(!product) {
+    router.push('/')
+    redirect('/')
+  }
   const productOnCart: IProductOnCart = {
     id: product.id,
     name: product.name,
@@ -41,15 +50,17 @@ export default function Product({ product }: ProductProps) {
     imageUrl: product.imageUrl,
   }
 
-  const { isFallback } = useRouter()
+  const { isFallback } = router
   if (isFallback) {
     return <p>loading...</p>
   }
 
+  // Add product on cart
   async function handleAddProductToCart() {
     addItem(productOnCart)
   }
 
+  // Format product price
   const price = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
@@ -63,7 +74,7 @@ export default function Product({ product }: ProductProps) {
 
       <ProductContainer>
         <ImageContainer>
-          <Image src={product.imageUrl} width={520} height={480} alt='' />
+          <Image src={product.imageUrl} width={productImageWidth} height={productImageHeight} alt='' />
         </ImageContainer>
 
         <ProductDetails>
@@ -94,6 +105,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps<any, { id: string }> = async ({ params }) => {
+  // Get product on Stripe API
   const productId = params!.id;
 
   const product = await stripe.products.retrieve(productId, {

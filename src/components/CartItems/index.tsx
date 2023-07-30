@@ -7,20 +7,24 @@ import { useShoppingCart } from 'use-shopping-cart';
 import { CheckoutButton, CloseButton, Content, FooterContainer, ImageContainer, MainContent, Overlay, ProductAmount, ProductOnCart } from './styles';
 
 export function CartItems() {
-  const { cartDetails, removeItem, totalPrice, clearCart } = useShoppingCart()
+  const { cartDetails, removeItem, totalPrice, clearCart, cartCount} = useShoppingCart()
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
 
+  // Format price product
   const ProductTotalPrice = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
   }).format(totalPrice! / 100)
 
   const products = Object.values(cartDetails!)
+  const itensOnCart = cartCount
 
+  // Remove Product of cart
   function handleRemoveProduct(productId: string) {
     removeItem(productId)
   }
 
+  // redirect to Stripe for checkout
   async function handleBuyProduct() {
     try {
       setIsCreatingCheckoutSession(true)
@@ -81,7 +85,7 @@ export function CartItems() {
           <div id='amountAndValue'>
             <div>
               <p>Quantidade</p>
-              <p>{products.length} itens</p>
+              <p>{itensOnCart} itens</p>
             </div>
 
             <div>
@@ -90,7 +94,9 @@ export function CartItems() {
             </div>
           </div>
 
-          <CheckoutButton onClick={handleBuyProduct} disabled={isCreatingCheckoutSession || !products.length}>Finalizar compra</CheckoutButton>
+          <CheckoutButton onClick={handleBuyProduct} disabled={isCreatingCheckoutSession || !products.length}>
+            {isCreatingCheckoutSession ? 'Redirecionando...' :'Finalizar compra'}
+          </CheckoutButton>
         </FooterContainer>
       </Content>
     </Dialog.Portal>

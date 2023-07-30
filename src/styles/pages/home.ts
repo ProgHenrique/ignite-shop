@@ -1,3 +1,4 @@
+import { Swiper } from 'swiper/react';
 import { styled } from "..";
 
 export const HomeContainer = styled('main', {
@@ -5,14 +6,40 @@ export const HomeContainer = styled('main', {
   width: '100%',
   maxWidth: 'calc(100vw - ((100vw - 1180px) / 2))',
   marginLeft: 'auto',
-  minHeight: 550,
 });
+
+export const SwiperContainer = styled( Swiper, {
+  width: '100%',
+
+  variants: {
+    forScreen: {
+      mobile: {
+        ".swiper-slide": {
+          width: 300
+        },
+      },
+      desktop: {
+        ".swiper-slide": {
+          maxWidth: 520
+        },
+      }
+    }
+  },
+
+  '.swiper-button-prev': {
+    color: '$white',
+  },
+  '.swiper-button-next': {
+    color: '$white',
+  },
+})
 
 export const Product = styled('div', {
   background: 'linear-gradient(180deg, #1ea483 0%, #7465d4 100%)',
   borderRadius: 8,
   position: 'relative',
   overflow: 'hidden',
+  cursor: 'pointer',
 
   display: 'flex',
   alignItems: 'center',

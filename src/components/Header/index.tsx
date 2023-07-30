@@ -9,6 +9,7 @@ import { CartItems } from "../CartItems";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useWindowSize } from "../../hooks/use-window-size";
 
 export function Header() {
   const { cartCount } = useShoppingCart()
@@ -16,13 +17,16 @@ export function Header() {
   const [headerPosition, setHeaderPosition] = useState<'center' | 'spaceBetween'>('spaceBetween')
   const [open, setOpen] = useState(false)
   const isCartEmpty = !cartCount
+  const windowSize = useWindowSize()
 
+  // set is cart checkout open or closed
   useEffect(() => {
     if (cartCount! < 1) {
       setOpen(false)
     }
   }, [cartCount])
 
+  // positon header case Stripe sucess payment
   useEffect(() => {
 
     if (pathname === '/success') {

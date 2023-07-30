@@ -19,9 +19,11 @@ export const Content = styled(Dialog.Content, {
   top: 0,
   right: 0,
   height: '100vh',
-  width: '30rem',
+  maxWidth: '30rem',
+  width: '100%',
   background: '$gray800',
   padding: '0 3rem',
+  '@mobile': {padding: '0 1.5rem', paddingBottom: '2rem'},
 
 
   '#title': {
@@ -31,7 +33,7 @@ export const Content = styled(Dialog.Content, {
   }
 })
 
-export const CloseButton = styled('button', {
+export const CloseButton = styled(Dialog.Close, {
   position: 'absolute',
   background: 'transparent',
   border: 'none',
@@ -126,9 +128,10 @@ export const ProductAmount = styled('span', {
   fontSize: '0.875rem',
   fontWeight: 'bold',
   color: '$white',
-  width: '1.650rem',
-  height: '1.650rem',
-  borderRadius: 1000,
+  width: '1.625rem',
+  height: '1.625rem',
+  borderRadius: '9999px',
+  padding: 2,
   top: -7,
   right: -7,
   backgroundColor: '$green500',
@@ -193,6 +196,7 @@ export const CheckoutButton = styled('button', {
 
   '&:disabled': {
     cursor: 'not-allowed',
+    opacity: 0.5
   },
 
   '&:not(:disabled):hover': {

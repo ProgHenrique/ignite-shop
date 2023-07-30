@@ -2,18 +2,21 @@ import { styled } from ".."
 
 export const ProductContainer = styled('main', {
   display: 'grid',
-  gridTemplateColumns: '1fr 1fr',
+  '@mobile': {gridTemplateRows: '1fr 1fr',},
+  '@desktop': {gridTemplateColumns: '1fr 1fr',},
   alignItems: 'stretch',
   gap: '4rem',
-
   maxWidth: 1180,
   margin: '0 auto',
-})
+  padding: '0 1.5rem',
+  paddingBottom: '1.5rem',
+  paddingTop: '8rem',
+});
 
 export const ImageContainer = styled('div', {
   width: '100%',
   maxWidth: 576,
-  height: 550,
+  '@desktop': {minHeight: 'calc(2rem - 100vh)'},
   background: 'linear-gradient(180deg, #1ea483 0%, #7465d4 100%)',
   borderRadius: 8,
   padding: '0.25rem',
@@ -25,33 +28,35 @@ export const ImageContainer = styled('div', {
   img: {
     objectFit: 'cover',
   }
-})
+});
 
 export const ProductDetails = styled('div', {
   display: 'flex',
   flexDirection: 'column',
 
   h1: {
-    fontSize: '$2xl',
+    fontSize: '$xl',
     color: '$gray300',
   },
 
   span: {
     marginTop: '1rem',
     display: 'block',
-    fontSize: '$2xl',
+    fontSize: '$xl',
     color: '$green300'
   },
 
   p: {
     marginTop: '2.5rem',
-    fontSize: '$md',
+    '@desktop': {fontSize: '$md'},
+    '@mobile': {fontSize: '1rem'},
     lineHeight: 1.6,
     color: '$gray300',
   },
 
   button: {
-    marginTop: 'auto',
+    '@desktop': {marginTop: 'auto'},
+    '@mobile': {marginTop: '2.5rem'},
     backgroundColor: '$green500',
     border: 0,
     color: '$white',
@@ -70,4 +75,4 @@ export const ProductDetails = styled('div', {
       backgroundColor: '$green300',
     }
   }
-})
+});
