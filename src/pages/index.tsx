@@ -15,6 +15,7 @@ import Head from "next/head";
 import { Handbag } from "phosphor-react";
 import { useShoppingCart } from "use-shopping-cart";
 import { useWindowSize } from "../hooks/use-window-size";
+import { SwiperModule } from "swiper/types";
 
 interface Product {
   name: string;
@@ -45,6 +46,7 @@ export default function Home({ products }: HomeProps) {
   const { addItem } = useShoppingCart()
   const windowSize = useWindowSize()
   const productImageWidth = windowSize > 600 ? 520 : 280 
+  const isMobileScreen = windowSize < 600
 
   // Add product on cart
   async function handleAddProductToCart(product: Product) {
@@ -61,12 +63,12 @@ export default function Home({ products }: HomeProps) {
 
   // Config of the Slider container
   const sliderSettings: SwiperProps = {
-    modules: [Navigation, A11y],
-    spaceBetween: windowSize > 600 ? 48 : 38,
-    slidesPerView: windowSize > 600 ? 2 : 'auto',
-    navigation: windowSize > 600,
+    modules: [Navigation, A11y] as SwiperModule[],
+    spaceBetween: isMobileScreen ? 38 : 48,
+    slidesPerView: isMobileScreen ? 'auto' : 2,
+    navigation: !isMobileScreen,
     draggable: true,
-    centeredSlides: windowSize < 600,
+    centeredSlides: isMobileScreen,
   }
 
   return (
@@ -76,7 +78,7 @@ export default function Home({ products }: HomeProps) {
       </Head>
       
         <HomeContainer>
-          <SwiperContainer {...sliderSettings} forScreen={windowSize > 600 ? 'desktop' : 'mobile'}>
+          <SwiperContainer {...sliderSettings} >
           {products.map(product => {
             return (
               <SwiperSlide key={product.id}>

@@ -11,19 +11,16 @@ export const HomeContainer = styled('main', {
 export const SwiperContainer = styled( Swiper, {
   width: '100%',
 
-  variants: {
-    forScreen: {
-      mobile: {
-        ".swiper-slide": {
-          width: 300
-        },
-      },
-      desktop: {
-        ".swiper-slide": {
-          maxWidth: 520
-        },
-      }
-    }
+  '@mobile': {
+    ".swiper-slide": {
+      width: 300
+    },
+  },
+
+  '@desktop': {
+    ".swiper-slide": {
+      maxWidth: 520
+    },
   },
 
   '.swiper-button-prev': {
