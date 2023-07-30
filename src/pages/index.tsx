@@ -1,7 +1,7 @@
 import Image from "next/image";
 
-import { SwiperProps, SwiperSlide } from 'swiper/react';
-import { A11y, Navigation } from 'swiper/modules';
+import { SwiperSlide } from 'swiper/react';
+import { Navigation, A11y } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
@@ -15,7 +15,6 @@ import Head from "next/head";
 import { Handbag } from "phosphor-react";
 import { useShoppingCart } from "use-shopping-cart";
 import { useWindowSize } from "../hooks/use-window-size";
-import { SwiperModule } from "swiper/types";
 
 interface Product {
   name: string;
@@ -61,16 +60,6 @@ export default function Home({ products }: HomeProps) {
     addItem(productOnCart)
   }
 
-  // Config of the Slider container
-  const sliderSettings: SwiperProps = {
-    modules: [Navigation, A11y] as SwiperModule[],
-    spaceBetween: isMobileScreen ? 38 : 48,
-    slidesPerView: isMobileScreen ? 'auto' : 2,
-    navigation: !isMobileScreen,
-    draggable: true,
-    centeredSlides: isMobileScreen,
-  }
-
   return (
     <>
       <Head>
@@ -78,7 +67,14 @@ export default function Home({ products }: HomeProps) {
       </Head>
       
         <HomeContainer>
-          <SwiperContainer {...sliderSettings} >
+          <SwiperContainer  
+            modules = {[Navigation, A11y]}
+            spaceBetween = {isMobileScreen ? 38  : 48}
+            slidesPerView = {isMobileScreen ? 'auto'  : 2}
+            navigation = {!isMobileScreen}
+            draggable = {true}
+            centeredSlides = {isMobileScreen}
+          >
           {products.map(product => {
             return (
               <SwiperSlide key={product.id}>
